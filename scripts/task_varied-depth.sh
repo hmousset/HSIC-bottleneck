@@ -1,7 +1,6 @@
 #!/bin/bash
-
-run_hsicbt -cfg config/varied-depth.yaml -dt 5  -ei 1
-run_hsicbt -cfg config/varied-depth.yaml -dt 10 -ei 2
-run_hsicbt -cfg config/varied-depth.yaml -dt 15 -ei 3
-run_hsicbt -cfg config/varied-depth.yaml -dt 20 -ei 4
-run_plot -t varied-depth -dc mnist -e pdf
+uv run hsicbt experiment=varied-depth n_layers=5  exp_index=1
+uv run hsicbt experiment=varied-depth n_layers=10 exp_index=2
+uv run hsicbt experiment=varied-depth n_layers=15 exp_index=3
+uv run hsicbt experiment=varied-depth n_layers=20 exp_index=4
+uv run hsicbt-plot task=varied-depth data_code=mnist ext=pdf

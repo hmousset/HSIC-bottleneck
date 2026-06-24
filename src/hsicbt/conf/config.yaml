@@ -1,0 +1,17 @@
+defaults:
+  - experiment_schema
+  - experiment: general-hsicbt
+  - _self_
+
+# Keep the working directory at the user's cwd (the repo root) so that the
+# assets/* tree is written where the code expects, and do not litter the repo
+# with Hydra output folders.
+hydra:
+  run:
+    dir: .
+  sweep:
+    dir: .
+    subdir: .
+  output_subdir: null
+  job:
+    chdir: false

@@ -4,12 +4,11 @@ https://github.com/choasma/HSIC-bottleneck/issues/10
 (1) why this part does not use backprop? (the following part involves loss.backward() and optimizer.step())
 (2) what the "block" here means in block coordinate descent? Is the neurons in the same layer considered as in the same group?
 """
-import sys
-sys.path.append("source")
-import torch
 import numpy as np
-from hsicbt.utils import misc
+import torch
+
 from hsicbt.model.mhlinear import ModelLinear
+from hsicbt.utils import misc
 
 # # # our model
 model = ModelLinear(last_hidden_width=10)

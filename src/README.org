@@ -1,0 +1,23 @@
+* Source layout
+
+The =hsicbt= package lives under =src/hsicbt= (src layout, installed via
+=uv sync=).
+
+- =math/=   — the HSIC kernel/objective primitives (=hsic.py=).
+- =model/=  — network definitions (linear, conv, resnet, needle, ensembles) and
+  the reusable building blocks in =block.py=.
+- =core/=   — training engines (=train_hsic=, =train_standard=, =engine=) and the
+  task =dispatcher=.
+- =task/=   — per-experiment orchestration and result plotting.
+- =utils/=  — datasets, IO, paths, plotting and misc helpers.
+- =config.py= — Hydra structured-config schemas.
+- =cli.py=  — the =hsicbt= and =hsicbt-plot= console entry points.
+- =conf/=   — Hydra YAML configs (see =conf/experiment/=).
+
+Develop against it with:
+
+#+begin_src bash
+uv sync                 # create the environment
+uv run ruff check src   # lint
+uv run hsicbt experiment=general-hsicbt epochs=1
+#+end_src

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(HSICBT_DEBUG=4 uv run hsicbt experiment=general-hsicbt)",
+      "Bash(HSICBT_DEBUG=4 uv run hsicbt experiment=general-backprop)",
+      "Bash(echo \"=== EXIT: $? ===\")",
+      "Bash(grep -v \"^total\\\\|raw$\")",
+      "Bash(HSICBT_DEBUG=4 uv run hsicbt experiment=general-format)",
+      "Bash(cat)",
+      "Bash(chmod +x *.sh)",
+      "Bash(git rm *)",
+      "Bash(uv build *)",
+      "Bash(python -c \"import zipfile,glob; w=sorted\\(glob.glob\\('dist/*.whl'\\)\\)[-1]; z=zipfile.ZipFile\\(w\\); print\\('\\\\n'.join\\(n for n in z.namelist\\(\\) if 'conf' in n\\)\\)\")"
+    ]
+  }
+}

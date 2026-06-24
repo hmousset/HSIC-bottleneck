@@ -1,10 +1,9 @@
 #!/bin/bash
-
-run_hsicbt -cfg config/sigma-combined.yaml -s 1  -ei 1 -tt hsictrain
-run_hsicbt -cfg config/sigma-combined.yaml -s 5  -ei 2 -tt hsictrain
-run_hsicbt -cfg config/sigma-combined.yaml -s 10 -ei 3 -tt hsictrain
-run_hsicbt -cfg config/sigma-combined.yaml -ei 1 -tt format -lr 0.004
-run_hsicbt -cfg config/sigma-combined.yaml -ei 2 -tt format -lr 0.004
-run_hsicbt -cfg config/sigma-combined.yaml -ei 3 -tt format -lr 0.004
-run_hsicbt -cfg config/sigma-combined.yaml -ei 1 2 3 -tt format -lr 0.004
-run_plot -t sigma-combined -dc mnist -e pdf
+uv run hsicbt experiment=sigma-combined sigma=1  exp_index=1 training_type=hsictrain
+uv run hsicbt experiment=sigma-combined sigma=5  exp_index=2 training_type=hsictrain
+uv run hsicbt experiment=sigma-combined sigma=10 exp_index=3 training_type=hsictrain
+uv run hsicbt experiment=sigma-combined exp_index=1 training_type=format learning_rate=0.004
+uv run hsicbt experiment=sigma-combined exp_index=2 training_type=format learning_rate=0.004
+uv run hsicbt experiment=sigma-combined exp_index=3 training_type=format learning_rate=0.004
+uv run hsicbt experiment=sigma-combined 'exp_index=[1,2,3]' training_type=format learning_rate=0.004
+uv run hsicbt-plot task=sigma-combined data_code=mnist ext=pdf

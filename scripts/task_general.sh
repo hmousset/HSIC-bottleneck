@@ -1,7 +1,5 @@
 #!/bin/bash
-
-run_hsicbt -cfg config/general-hsicbt.yaml   -tt hsictrain
-run_hsicbt -cfg config/general-format.yaml   -tt format
-run_hsicbt -cfg config/general-backprop.yaml -tt backprop
-run_plot -t general -dc mnist -e pdf
-
+uv run hsicbt experiment=general-hsicbt   training_type=hsictrain
+uv run hsicbt experiment=general-format   training_type=format
+uv run hsicbt experiment=general-backprop training_type=backprop
+uv run hsicbt-plot task=general data_code=mnist ext=pdf

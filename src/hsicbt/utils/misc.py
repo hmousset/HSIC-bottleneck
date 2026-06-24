@@ -1,45 +1,50 @@
-from .. import *
+from time import strftime
+
+import numpy as np
+import torch
+
 
 def get_current_timestamp():
     return strftime("%y%m%d_%H%M%S")
 
+
 def get_in_channels(data_code):
     in_ch = -1
-    if data_code == 'mnist':
+    if data_code == "mnist":
         in_ch = 1
-    elif data_code == 'cifar10':
+    elif data_code == "cifar10":
         in_ch = 3
-    elif data_code == 'fmnist':
+    elif data_code == "fmnist":
         in_ch = 1
     else:
-        raise ValueError("Invalid or not supported dataset [{}]".format(data_code))
+        raise ValueError(f"Invalid or not supported dataset [{data_code}]")
     return in_ch
 
+
 def get_in_dimensions(data_code):
-    in_dim = -1    
-    if data_code == 'mnist':
+    in_dim = -1
+    if data_code == "mnist":
         in_dim = 784
-    elif data_code == 'cifar10':
+    elif data_code == "cifar10":
         in_dim = 1024
-    elif data_code == 'fmnist':
+    elif data_code == "fmnist":
         in_dim = 784
     else:
-        raise ValueError("Invalid or not supported dataset [{}]".format(data_code))
+        raise ValueError(f"Invalid or not supported dataset [{data_code}]")
     return in_dim
 
+
 def get_accuracy_epoch(model, dataloader):
-    """ Computes the precision@k for the specified values of k
-        https://github.com/pytorch/examples/blob/master/imagenet/main.py
+    """Computes the precision@k for the specified values of k
+    https://github.com/pytorch/examples/blob/master/imagenet/main.py
     """
-    output_list = []
-    target_list = []
     acc = []
     loss = []
     cross_entropy_loss = torch.nn.CrossEntropyLoss()
-    model = model.to('cuda')
+    model = model.to("cuda")
     device = next(model.parameters()).device
 
-    for batch_idx, (data, target) in enumerate(dataloader):
+    for data, target in dataloader:
         data = data.to(device)
         target = target.to(device)
         output, hiddens = model(data)
@@ -49,8 +54,8 @@ def get_accuracy_epoch(model, dataloader):
 
 
 def get_accuracy(output, target, topk=(1,)):
-    """ Computes the precision@k for the specified values of k
-        https://github.com/pytorch/examples/blob/master/imagenet/main.py
+    """Computes the precision@k for the specified values of k
+    https://github.com/pytorch/examples/blob/master/imagenet/main.py
     """
     maxk = max(topk)
     batch_size = target.size(0)
@@ -59,20 +64,21 @@ def get_accuracy(output, target, topk=(1,)):
     correct = pred.eq(target.view(1, -1).expand_as(pred))
     res = []
     for k in topk:
-        correct_k = correct[:k].view(-1).float().sum(0)
+        correct_k = correct[:k].reshape(-1).float().sum(0)
         res.append(correct_k.mul_(100.0 / batch_size))
     return res
 
+
 def get_accuracy_hsic(model, dataloader):
-    """ Computes the precision@k for the specified values of k
-        https://github.com/pytorch/examples/blob/master/imagenet/main.py
+    """Computes the precision@k for the specified values of k
+    https://github.com/pytorch/examples/blob/master/imagenet/main.py
     """
     output_list = []
     target_list = []
-    for batch_idx, (data, target) in enumerate(dataloader):
+    for data, target in dataloader:
         output, hiddens = model(data.to(next(model.parameters()).device))
         output = output.cpu().detach().numpy()
-        target = target.cpu().detach().numpy().reshape(-1,1)
+        target = target.cpu().detach().numpy().reshape(-1, 1)
         output_list.append(output)
         target_list.append(target)
     output_arr = np.vstack(output_list)
@@ -80,19 +86,20 @@ def get_accuracy_hsic(model, dataloader):
     avg_acc = 0
     reorder_list = []
     for i in range(10):
-        indices = np.where(target_arr==i)[0]
+        indices = np.where(target_arr == i)[0]
         select_item = output_arr[indices]
         out = np.array([np.argmax(vec) for vec in select_item])
         y = np.mean(select_item, axis=0)
         while np.argmax(y) in reorder_list:
             y[np.argmax(y)] = 0
         reorder_list.append(np.argmax(y))
-        num_correct = np.where(out==np.argmax(y))[0]
-        accuracy = float(num_correct.shape[0])/float(out.shape[0])
+        num_correct = np.where(out == np.argmax(y))[0]
+        accuracy = float(num_correct.shape[0]) / float(out.shape[0])
         avg_acc += accuracy
-    avg_acc /= 10.
+    avg_acc /= 10.0
 
-    return avg_acc*100., reorder_list
+    return avg_acc * 100.0, reorder_list
+
 
 def get_layer_parameters(model, idx_range):
 
@@ -107,5 +114,11 @@ def get_layer_parameters(model, idx_range):
 
 
 def to_categorical(y, num_classes):
-    """ 1-hot encodes a tensor """
-    return torch.squeeze(torch.eye(num_classes)[y])
+    """1-hot encodes a tensor.
+
+    ``y`` is moved to the CPU before indexing the identity matrix. Old PyTorch
+    silently returned a CPU tensor when indexing a CPU ``eye`` with a CUDA index;
+    modern PyTorch rejects the device mismatch. Indexing on the CPU reproduces the
+    original behaviour (the HSIC kernels are computed on the CPU regardless).
+    """
+    return torch.squeeze(torch.eye(num_classes)[y.cpu()])

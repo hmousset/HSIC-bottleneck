@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# uv / virtualenv
+.venv/
+
+# Hydra
+outputs/
+.hydra/
+*.log
+
+# Generated experiment assets (datasets, logs, models, figures).
+# The curated sample figures under assets/samples/ are kept in git.
+assets/data/
+assets/logs/
+assets/models/
+assets/exp/
+assets/tmp/
+assets/activation/

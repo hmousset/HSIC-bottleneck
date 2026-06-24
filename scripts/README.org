@@ -8,13 +8,14 @@ Each run is according to the specific task generating figure in the paper. To re
 
 #+begin_src bash
 # in bash
-git clone git@gitlab.com:gladiator8072/hsic-bottleneck.git 
-source env.sh
-batch.sh
+git clone https://github.com/choasma/HSIC-bottleneck.git
+cd HSIC-bottleneck
+uv sync                  # create the environment and install hsicbt
+bash scripts/batch.sh    # reproduce every figure
 #+end_src
 
-After the batch training, you'll get the following result in your *assets/exp* folder, and please compare to our sample results under *assets/sample* folder:
-For more information, please visit the running procedure page (config/READMD.md [link](config/README.md)) and (bin/README.md [link](bin/README.md)) for more information.
+After the batch training, you'll get the following result in your *assets/exp* folder, and please compare to our sample results under *assets/samples* folder:
+For more information, please visit the configuration page ([[file:../config/README.org][config/README.org]]) and the entry-point page ([[file:../bin/README.md][bin/README.md]]).
 #+begin_src bash
 # there's fig* context at beginning for convenience 
 [mawand@machine HSIC-bottleneck]$ ls -l assets/exp | awk '{print $9}'
@@ -41,11 +42,11 @@ fig7b-sigma-combined-mnist-sigmacomb-train-acc.pdf
 * Difficult life
 
 ** Procedure
-HSIC-bottleneck is task oriented project that make each tasks following the similar action. In general, you'll take the following steps to achieve your specific task 
+HSIC-bottleneck is task oriented project that make each tasks following the similar action. In general, you'll take the following steps to achieve your specific task
 - go to the project root directory
-- setting the environment *source env.sh*
-- run command prefixed with *task_*
-- load the given config *[config_path]*
+- create the environment once with *uv sync*
+- run a script prefixed with *task_* (e.g. *bash scripts/task_general.sh*)
+- it selects a Hydra experiment config *experiment=[name]*
 - training,
 - save the logs under `./assets/logs` (optional)
 - save figures in `./assets/exp` (with prefixed "fig", corresponding to the paper figures)

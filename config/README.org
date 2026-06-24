@@ -1,7 +1,20 @@
 # Configuration
 
-Each config file represents the single training, which might have several trainings to have the comparisons. The description might be rich in each file but please flag if there's any diffculaties.
-Please refer to `scripts/README.md` for the experiment reproducing.
+The experiment configuration now lives in the Hydra config tree under
+[[file:../src/hsicbt/conf]]:
 
+- =src/hsicbt/conf/config.yaml= — the main entry point (selects a default experiment).
+- =src/hsicbt/conf/experiment/*.yaml= — one file per experiment (general, resconv,
+  needle, hsic-solve, varied-{activation,depth,dim,epoch}, sigma-combined, ...).
+- =src/hsicbt/conf/plot_config.yaml= — configuration for the plotting entry point.
 
+The full list of overridable keys and their defaults is defined as a structured
+schema in [[file:../src/hsicbt/config.py]].
 
+Run an experiment and override any key on the command line:
+
+#+begin_src bash
+uv run hsicbt experiment=general-hsicbt epochs=5 batch_size=32 learning_rate=0.001
+#+end_src
+
+See [[file:../scripts/README.org][scripts/README.org]] for end-to-end reproduction commands.

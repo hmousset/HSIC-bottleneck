@@ -1,15 +1,16 @@
 #!/bin/bash
 
-run_hsicbt -cfg config/general-backprop.yaml -ep 1
-run_hsicbt -cfg config/general-hsicbt.yaml -ep 1
-run_hsicbt -cfg config/general-format.yaml -ep 1
-run_hsicbt -cfg config/hsicsolve.yaml -ep 1
-run_hsicbt -cfg config/needle.yaml -ep 1
-run_hsicbt -cfg config/resconv-backprop.yaml -ep 1
-run_hsicbt -cfg config/resconv-format.yaml -ep 1
-run_hsicbt -cfg config/resconv-hsicbt.yaml -ep 1
-run_hsicbt -cfg config/sigma-combined.yaml -ep 1
-run_hsicbt -cfg config/varied-activation.yaml -ep 1
-run_hsicbt -cfg config/varied-depth.yaml -ep 1
-run_hsicbt -cfg config/varied-dim.yaml -ep 1
-run_hsicbt -cfg config/varied-epoch.yaml -ep 1
+# Quick 1-epoch smoke run of every experiment configuration.
+uv run hsicbt experiment=general-backprop   epochs=1
+uv run hsicbt experiment=general-hsicbt      epochs=1
+uv run hsicbt experiment=general-format      epochs=1
+uv run hsicbt experiment=hsicsolve           epochs=1
+uv run hsicbt experiment=needle              epochs=1
+uv run hsicbt experiment=resconv-backprop    epochs=1
+uv run hsicbt experiment=resconv-format      epochs=1
+uv run hsicbt experiment=resconv-hsicbt      epochs=1
+uv run hsicbt experiment=sigma-combined      epochs=1
+uv run hsicbt experiment=varied-activation   epochs=1
+uv run hsicbt experiment=varied-depth        epochs=1
+uv run hsicbt experiment=varied-dim          epochs=1
+uv run hsicbt experiment=varied-epoch        epochs=1

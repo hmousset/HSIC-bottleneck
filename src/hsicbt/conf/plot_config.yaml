@@ -1,0 +1,13 @@
+defaults:
+  - plot_schema
+  - _self_
+
+hydra:
+  run:
+    dir: .
+  sweep:
+    dir: .
+    subdir: .
+  output_subdir: null
+  job:
+    chdir: false

@@ -1,16 +1,24 @@
 # bin
 
-### run\_hsicbt
-you could throw config file into the execution such as the following. this will create the log file under `assets/exp`
+The standalone `run_hsicbt` / `run_plot` launchers have been replaced by two
+console scripts installed by `uv sync` (defined in `pyproject.toml`):
+
+### `hsicbt`
+Runs a training / experiment task. Pick an experiment config and override any
+key on the command line (Hydra syntax):
 ```sh
-run_hsicbt -cfg config/whatever.yaml
+uv run hsicbt experiment=general-hsicbt
+# e.g. changing epochs and batch size
+uv run hsicbt experiment=general-hsicbt epochs=5 batch_size=32
 ```
-however, if you want to overwrite the config, please refer to run_hsicbt get_args function. This will prevent multiple config files such as under grid-search experiments.
-more examples are illustrated under `scripts` folder
+The available experiments live in `src/hsicbt/conf/experiment/`, and the full
+list of overridable keys is in `src/hsicbt/config.py`. Logs and models are
+written under `assets/`.
+
+### `hsicbt-plot`
+Renders the figures for a task:
 ```sh
-# e.g., chaning batch-size and epochs
-run_hsicbt -cfg config/whatever.yaml -ep 5 -bs 32
+uv run hsicbt-plot task=general data_code=mnist ext=pdf
 ```
 
-### run_plot
-managing the plots according to each task
+See the `scripts/` folder for end-to-end examples.

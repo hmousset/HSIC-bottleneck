@@ -1,34 +1,18 @@
 #!/bin/bash
 
-# # # # # # # # # # # # # # # 
-# Batch-running: 
-#	please see config/README.md for more information
-# # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # #
+# Batch-running every paper experiment.
+#   please see config/README.org for more information
+# # # # # # # # # # # # # # #
 
-# genernal
-task_general.sh
+HERE="$(cd "$(dirname "$0")" && pwd)"
 
-# fig2a-c
-task_varied-act.sh
-
-# fig2d-f
-task_varied-depth.sh
-
-# fig3-4
-task_hsicsolve-beta.sh
-
-# fig5-ab
-task_varied-ep.sh
-
-# fig6a
-task_varied-dim.sh
-
-# fig6b
-task_combsig.sh
-
-# fig7
-task_resconv.sh
-
-# fig8
-task_needle.sh
-
+bash "${HERE}/task_general.sh"        # general
+bash "${HERE}/task_varied-act.sh"     # fig2a-c
+bash "${HERE}/task_varied-depth.sh"   # fig2d-f
+bash "${HERE}/task_hsicsolve-beta.sh" # fig3-4
+bash "${HERE}/task_varied-ep.sh"      # fig5-ab
+bash "${HERE}/task_varied-dim.sh"     # fig6a
+bash "${HERE}/task_combsig.sh"        # fig6b
+bash "${HERE}/task_resconv.sh"        # fig7
+bash "${HERE}/task_needle.sh"         # fig8

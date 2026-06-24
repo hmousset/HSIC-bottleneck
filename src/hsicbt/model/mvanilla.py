@@ -1,12 +1,13 @@
-from .. import *
+import torch.nn.functional as F
+from torch import nn
+
 
 class ModelVanilla(nn.Module):
-
     def __init__(self, hidden_width=64, last_hidden_width=None, **kwargs):
-        super(ModelVanilla, self).__init__()
+        super().__init__()
         last_dim = hidden_width
         if last_hidden_width:
-        	last_dim = last_hidden_width
+            last_dim = last_hidden_width
         self.output = nn.Linear(last_dim, 10)
 
     def forward(self, x):

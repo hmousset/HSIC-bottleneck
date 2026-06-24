@@ -1,13 +1,11 @@
 #!/bin/bash
-
-run_hsicbt -cfg config/resconv-hsicbt.yaml   -mf hsic_weight_resconv_mnist.pt -dc mnist
-run_hsicbt -cfg config/resconv-format.yaml   -mf hsic_weight_resconv_mnist.pt -dc mnist
-run_hsicbt -cfg config/resconv-backprop.yaml -mf hsic_weight_resconv_mnist.pt -dc mnist
-run_hsicbt -cfg config/resconv-hsicbt.yaml   -mf hsic_weight_resconv_fmnist.pt -dc fmnist -s 5 -ld 500
-run_hsicbt -cfg config/resconv-format.yaml   -mf hsic_weight_resconv_fmnist.pt -dc fmnist
-run_hsicbt -cfg config/resconv-backprop.yaml -mf hsic_weight_resconv_fmnist.pt -dc fmnist
-run_hsicbt -cfg config/resconv-hsicbt.yaml   -mf hsic_weight_resconv_cifar10.pt -dc cifar10 -s 5 -ld 500
-run_hsicbt -cfg config/resconv-format.yaml   -mf hsic_weight_resconv_cifar10.pt -dc cifar10 
-run_hsicbt -cfg config/resconv-backprop.yaml -mf hsic_weight_resconv_cifar10.pt -dc cifar10 
-run_plot -t resconv -e pdf
-
+uv run hsicbt experiment=resconv-hsicbt   model_file=hsic_weight_resconv_mnist.pt   data_code=mnist
+uv run hsicbt experiment=resconv-format   model_file=hsic_weight_resconv_mnist.pt   data_code=mnist
+uv run hsicbt experiment=resconv-backprop model_file=hsic_weight_resconv_mnist.pt   data_code=mnist
+uv run hsicbt experiment=resconv-hsicbt   model_file=hsic_weight_resconv_fmnist.pt  data_code=fmnist sigma=5 lambda_y=500
+uv run hsicbt experiment=resconv-format   model_file=hsic_weight_resconv_fmnist.pt  data_code=fmnist
+uv run hsicbt experiment=resconv-backprop model_file=hsic_weight_resconv_fmnist.pt  data_code=fmnist
+uv run hsicbt experiment=resconv-hsicbt   model_file=hsic_weight_resconv_cifar10.pt data_code=cifar10 sigma=5 lambda_y=500
+uv run hsicbt experiment=resconv-format   model_file=hsic_weight_resconv_cifar10.pt data_code=cifar10
+uv run hsicbt experiment=resconv-backprop model_file=hsic_weight_resconv_cifar10.pt data_code=cifar10
+uv run hsicbt-plot task=resconv ext=pdf

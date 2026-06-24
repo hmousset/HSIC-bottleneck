@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 import numpy as np
+
 
 def say_hello():
 
@@ -11,6 +11,7 @@ def say_hello():
         hello_02()
     elif i == 2:
         hello_03()
+
 
 def hello_01():
     print("")
